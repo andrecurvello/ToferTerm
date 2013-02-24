@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <string name="app_name">BlueTerm</string>
+
+    <string name="app_name">ToferTerm</string>
 
 	<string name="alert_dialog_no_bt">Cannot use this application without bluetooth.</string>
 	<string name="alert_dialog_yes">Yes</string>
@@ -27,15 +27,15 @@
     <!-- Options Menu -->
     <string name="connect">Connect device</string>
     <string name="disconnect">Disconnect device</string>
-    <string name="preferences">Preferences</string>    
+    <string name="preferences">Preferences</string>
     <string name="special_keys">Special keys</string>
-    
+
     <!-- Preference dialog -->
     <string name="general_preferences">General</string>
 
     <string name="title_localhecho_preference">Local echo</string>
     <string name="summary_localecho_preference">Display the key strokes</string>
-    
+
     <string name="text_preferences">Text</string>
 
     <string name="title_fontsize_preference">Font size</string>

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.pymasde.blueterm;
+package es.pymasde.toferterm;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;

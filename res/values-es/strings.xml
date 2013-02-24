@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">BlueTerm</string>
+    <string name="app_name">ToferTerm</string>
 
 	<string name="alert_dialog_no_bt">El bluetooth debe estar activado para poder usar esta aplicación.</string>
 	<string name="alert_dialog_yes">Si</string>
@@ -27,15 +27,15 @@
     <!-- Options Menu -->
     <string name="connect">Conectarse a un dispositivo</string>
     <string name="disconnect">Desconectar</string>
-    <string name="preferences">Preferencias</string>    
+    <string name="preferences">Preferencias</string>
     <string name="special_keys">Teclas especiales</string>
-    
+
     <!-- Preference dialog -->
     <string name="general_preferences">General</string>
 
     <string name="title_localhecho_preference">Echo local</string>
     <string name="summary_localecho_preference"></string>
-    
+
     <string name="text_preferences">Texto</string>
 
     <string name="title_fontsize_preference">Tamaño de la fuente</string>

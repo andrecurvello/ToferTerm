@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package es.pymasde.blueterm;
+package es.pymasde.toferterm;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -80,7 +80,7 @@ public class BluetoothSerialService {
 		mState = state;
 
 		// Give the new state to the Handler so the UI Activity can update
-		mHandler.obtainMessage(BlueTerm.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
+		mHandler.obtainMessage(ToferTerm.MESSAGE_STATE_CHANGE, state, -1).sendToTarget();
 	}
 
 	/**
@@ -97,13 +97,13 @@ public class BluetoothSerialService {
 
 		// Cancel any thread attempting to make a connection
 		if (mConnectThread != null) {
-			mConnectThread.cancel(); 
+			mConnectThread.cancel();
 			mConnectThread = null;
 		}
 
 		// Cancel any thread currently running a connection
 		if (mConnectedThread != null) {
-			mConnectedThread.cancel(); 
+			mConnectedThread.cancel();
 			mConnectedThread = null;
 		}
 
@@ -141,13 +141,13 @@ public class BluetoothSerialService {
 
 		// Cancel the thread that completed the connection
 		if (mConnectThread != null) {
-			mConnectThread.cancel(); 
+			mConnectThread.cancel();
 			mConnectThread = null;
 		}
 
 		// Cancel any thread currently running a connection
 		if (mConnectedThread != null) {
-			mConnectedThread.cancel(); 
+			mConnectedThread.cancel();
 			mConnectedThread = null;
 		}
 
@@ -156,9 +156,9 @@ public class BluetoothSerialService {
 		mConnectedThread.start();
 
 		// Send the name of the connected device back to the UI Activity
-		Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_DEVICE_NAME);
+		Message msg = mHandler.obtainMessage(ToferTerm.MESSAGE_DEVICE_NAME);
 		Bundle bundle = new Bundle();
-		bundle.putString(BlueTerm.DEVICE_NAME, device.getName());
+		bundle.putString(ToferTerm.DEVICE_NAME, device.getName());
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
 
@@ -173,12 +173,12 @@ public class BluetoothSerialService {
 
 
 		if (mConnectThread != null) {
-			mConnectThread.cancel(); 
+			mConnectThread.cancel();
 			mConnectThread = null;
 		}
 
 		if (mConnectedThread != null) {
-			mConnectedThread.cancel(); 
+			mConnectedThread.cancel();
 			mConnectedThread = null;
 		}
 
@@ -209,9 +209,9 @@ public class BluetoothSerialService {
 		setState(STATE_NONE);
 
 		// Send a failure message back to the Activity
-		Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_TOAST);
+		Message msg = mHandler.obtainMessage(ToferTerm.MESSAGE_TOAST);
 		Bundle bundle = new Bundle();
-		bundle.putString(BlueTerm.TOAST, "Unable to connect device");
+		bundle.putString(ToferTerm.TOAST, "Unable to connect device");
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
 	}
@@ -223,9 +223,9 @@ public class BluetoothSerialService {
 		setState(STATE_NONE);
 
 		// Send a failure message back to the Activity
-		Message msg = mHandler.obtainMessage(BlueTerm.MESSAGE_TOAST);
+		Message msg = mHandler.obtainMessage(ToferTerm.MESSAGE_TOAST);
 		Bundle bundle = new Bundle();
-		bundle.putString(BlueTerm.TOAST, "Device connection was lost");
+		bundle.putString(ToferTerm.TOAST, "Device connection was lost");
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
 	}
@@ -337,7 +337,7 @@ public class BluetoothSerialService {
 
 					mEmulatorView.write(buffer, bytes);
 					// Send the obtained bytes to the UI Activity
-					//mHandler.obtainMessage(BlueTerm.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
+					//mHandler.obtainMessage(ToferTerm.MESSAGE_READ, bytes, -1, buffer).sendToTarget();
 
 					String a = buffer.toString();
 					a = "";
@@ -358,7 +358,7 @@ public class BluetoothSerialService {
 				mmOutStream.write(buffer);
 
 				// Share the sent message back to the UI Activity
-				mHandler.obtainMessage(BlueTerm.MESSAGE_WRITE, buffer.length, -1, buffer)
+				mHandler.obtainMessage(ToferTerm.MESSAGE_WRITE, buffer.length, -1, buffer)
 				.sendToTarget();
 			} catch (IOException e) {
 				Log.e(TAG, "Exception during write", e);

@@ -1,4 +1,4 @@
-package es.pymasde.blueterm;
+package es.pymasde.toferterm;
 
 import java.io.IOException;
 
@@ -43,7 +43,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 
-public class BlueTerm extends Activity {
+public class ToferTerm extends Activity {
 	// Intent request codes
 	private static final int REQUEST_CONNECT_DEVICE = 1;
 	private static final int REQUEST_ENABLE_BT = 2;
@@ -75,14 +75,14 @@ public class BlueTerm extends Activity {
 	 * from other messages in the log. Public because it's used by several
 	 * classes.
 	 */
-	public static final String LOG_TAG = "BlueTerm";
+	public static final String LOG_TAG = "ToferTerm";
 
 	// Message types sent from the BluetoothReadService Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
 	public static final int MESSAGE_READ = 2;
 	public static final int MESSAGE_WRITE = 3;
 	public static final int MESSAGE_DEVICE_NAME = 4;
-	public static final int MESSAGE_TOAST = 5;	
+	public static final int MESSAGE_TOAST = 5;
 
 	// Key names received from the BluetoothChatService Handler
 	public static final String DEVICE_NAME = "device_name";
@@ -155,7 +155,7 @@ public class BlueTerm extends Activity {
 
 		CONTROL_KEY_NAME = getResources().getStringArray(R.array.entries_controlkey_preference);
 
-		mInputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);		
+		mInputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 		// Set up the window layout
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
@@ -189,7 +189,7 @@ public class BlueTerm extends Activity {
 		mEmulatorView.requestFocus();
 		mEmulatorView.register(mKeyListener);
 
-		mSerialService = new BluetoothSerialService(this, mHandlerBT, mEmulatorView);        
+		mSerialService = new BluetoothSerialService(this, mHandlerBT, mEmulatorView);
 
 		if (DEBUG)
 			Log.e(LOG_TAG, "+++ DONE IN ON CREATE +++");
@@ -224,17 +224,17 @@ public class BlueTerm extends Activity {
 					public void onClick(DialogInterface dialog, int id) {
 						mEnablingBT = true;
 						Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-						startActivityForResult(enableIntent, REQUEST_ENABLE_BT);			
+						startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 					}
 				})
 				.setNegativeButton(R.string.alert_dialog_no, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						finishDialogNoBluetooth();            	
+						finishDialogNoBluetooth();
 					}
 				});
 				AlertDialog alert = builder.create();
 				alert.show();
-			}		
+			}
 
 			if (mSerialService != null) {
 				// Only if the state is STATE_NONE, do we know that we haven't started already
@@ -340,7 +340,7 @@ public class BlueTerm extends Activity {
 	private final Handler mHandlerBT = new Handler() {
 
 		@Override
-		public void handleMessage(Message msg) {        	
+		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case MESSAGE_STATE_CHANGE:
 				if(DEBUG) Log.i(LOG_TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
@@ -382,13 +382,13 @@ public class BlueTerm extends Activity {
 				}
 
 				break;
-				/*                
+				/*
             case MESSAGE_READ:
-                byte[] readBuf = (byte[]) msg.obj;              
+                byte[] readBuf = (byte[]) msg.obj;
                 mEmulatorView.write(readBuf, msg.arg1);
 
                 break;
-				 */                
+				 */
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
 				mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
@@ -401,7 +401,7 @@ public class BlueTerm extends Activity {
 				break;
 			}
 		}
-	};    
+	};
 
 
 	public void finishDialogNoBluetooth() {
@@ -412,11 +412,11 @@ public class BlueTerm extends Activity {
 		.setCancelable( false )
 		.setPositiveButton(R.string.alert_dialog_ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				finish();            	
+				finish();
 			}
 		});
 		AlertDialog alert = builder.create();
-		alert.show(); 
+		alert.show();
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -433,7 +433,7 @@ public class BlueTerm extends Activity {
 				// Get the BLuetoothDevice object
 				BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 				// Attempt to connect to the device
-				mSerialService.connect(device);                
+				mSerialService.connect(device);
 			}
 			break;
 
@@ -442,7 +442,7 @@ public class BlueTerm extends Activity {
 			if (resultCode == Activity.RESULT_OK) {
 				Log.d(LOG_TAG, "BT not enabled");
 
-				finishDialogNoBluetooth();                
+				finishDialogNoBluetooth();
 			}
 		}
 	}
@@ -527,16 +527,16 @@ public class BlueTerm extends Activity {
 					break;
 				}
 				buffer[0] = 27; // ESC
-				mSerialService.write( buffer );                    
+				mSerialService.write( buffer );
 				if (mEmulatorView.getKeypadApplicationMode()) {
 					buffer[0] = 'O';
-					mSerialService.write( buffer );                    
+					mSerialService.write( buffer );
 				} else {
 					buffer[0] = '[';
-					mSerialService.write( buffer );                    
+					mSerialService.write( buffer );
 				}
 				buffer[0] = (byte)code;
-				mSerialService.write( buffer );                    
+				mSerialService.write( buffer );
 			}
 		}
 		return true;
@@ -1400,18 +1400,18 @@ class TerminalEmulator {
 		for (int i = 0; i < length; i++) {
 			byte b = buffer[base + i];
 			try {
-				if (BlueTerm.LOG_CHARACTERS_FLAG) {
+				if (ToferTerm.LOG_CHARACTERS_FLAG) {
 					char printableB = (char) b;
 					if (b < 32 || b > 126) {
 						printableB = ' ';
 					}
-					Log.w(BlueTerm.LOG_TAG, "'" + Character.toString(printableB)
+					Log.w(ToferTerm.LOG_TAG, "'" + Character.toString(printableB)
 							+ "' (" + Integer.toString(b) + ")");
 				}
 				process(b);
 				mProcessedCharCount++;
 			} catch (Exception e) {
-				Log.e(BlueTerm.LOG_TAG, "Exception while processing character "
+				Log.e(ToferTerm.LOG_TAG, "Exception while processing character "
 						+ Integer.toString(mProcessedCharCount) + " code "
 						+ Integer.toString(b), e);
 			}
@@ -1946,8 +1946,8 @@ class TerminalEmulator {
 			} else if (code >= 40 && code <= 47) { // background color
 				mBackColor = (mBackColor & 0x8) | (code - 40);
 			} else {
-				if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
-					Log.w(BlueTerm.LOG_TAG, String.format("SGR unknown code %d", code));
+				if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+					Log.w(ToferTerm.LOG_TAG, String.format("SGR unknown code %d", code));
 				}
 			}
 		}
@@ -2103,21 +2103,21 @@ class TerminalEmulator {
 	}
 
 	private void unimplementedSequence(byte b) {
-		if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+		if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
 			logError("unimplemented", b);
 		}
 		finishSequence();
 	}
 
 	private void unknownSequence(byte b) {
-		if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+		if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
 			logError("unknown", b);
 		}
 		finishSequence();
 	}
 
 	private void unknownParameter(int parameter) {
-		if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+		if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
 			StringBuilder buf = new StringBuilder();
 			buf.append("Unknown parameter");
 			buf.append(parameter);
@@ -2126,7 +2126,7 @@ class TerminalEmulator {
 	}
 
 	private void logError(String errorType, byte b) {
-		if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+		if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
 			StringBuilder buf = new StringBuilder();
 			buf.append(errorType);
 			buf.append(" sequence ");
@@ -2153,8 +2153,8 @@ class TerminalEmulator {
 	}
 
 	private void logError(String error) {
-		if (BlueTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
-			Log.e(BlueTerm.LOG_TAG, error);
+		if (ToferTerm.LOG_UNKNOWN_ESCAPE_SEQUENCES) {
+			Log.e(ToferTerm.LOG_TAG, error);
 		}
 		finishSequence();
 	}
@@ -2572,7 +2572,7 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 	private float mScrollRemainder;
 	private TermKeyListener mKeyListener;
 
-	private BlueTerm mBlueTerm;
+	private ToferTerm mToferTerm;
 
 	private Runnable mCheckSize = new Runnable() {
 		public void run() {
@@ -2776,7 +2776,7 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 							+ "\015\177" // enter, del
 							+ "`-=[]\\;'/@"
 							+ "\000\000\000"
-							+ "+";            
+							+ "+";
 
 			@Override
 			public boolean setComposingText(CharSequence text, int newCursorPosition) {
@@ -2809,7 +2809,7 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 				byte[] mBuffer = new byte[1];
 				mBuffer[0] = (byte)mKeyListener.mapControlChar(c);
 
-				mBlueTerm.send(mBuffer);
+				mToferTerm.send(mBuffer);
 			}
 		};
 	}
@@ -2878,11 +2878,11 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 	 * @param termFd the file descriptor
 	 * @param termOut the output stream for the pseudo-teletype
 	 */
-	 public void initialize(BlueTerm blueTerm) {
-		 mBlueTerm = blueTerm;
+	 public void initialize(ToferTerm toferTerm) {
+		 mToferTerm = toferTerm;
 		 mTextSize = 15;
-		 mForeground = BlueTerm.WHITE;
-		 mBackground = BlueTerm.BLACK;
+		 mForeground = ToferTerm.WHITE;
+		 mBackground = ToferTerm.BLACK;
 		 updateText();
 		 mReceiveBuffer = new byte[4 * 1024];
 		 mByteQueue = new ByteQueue(4 * 1024);
@@ -2941,7 +2941,7 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 	 // Begin GestureDetector.OnGestureListener methods
 
 	 public boolean onSingleTapUp(MotionEvent e) {
-//		 mBlueTerm.toggleKeyboard(); /// @TODO Send char to bluetooth to indicate start of trampoline routine
+//		 mToferTerm.toggleKeyboard(); /// @TODO Send char to bluetooth to indicate start of trampoline routine
 
 		 return true;
 	 }
@@ -3050,21 +3050,21 @@ class EmulatorView extends View implements GestureDetector.OnGestureListener {
 	 void updateSize() {
 		 Rect visibleRect;
 
-		 if (mBlueTerm == null)
+		 if (mToferTerm == null)
 			 return;
 
 		 if (mKnownSize) {
 			 visibleRect = new Rect();
 			 getWindowVisibleDisplayFrame(visibleRect);
 			 int w = visibleRect.width();
-			 int h = visibleRect.height() - mBlueTerm.getTitleHeight() - 2;
+			 int h = visibleRect.height() - mToferTerm.getTitleHeight() - 2;
 			 if (w != mWidth || h != mHeight) {
 				 mWidth = w;
 				 mHeight = h;
 				 updateSize( w, h );
 			 }
 		 }
-	 }    
+	 }
 
 	 /**
 	  * Look for new input from the ptty, send it to the terminal emulator.
